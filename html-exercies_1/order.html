@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Order</title>
+    <link rel="stylesheet" href="dark_theme.css">
+
+</head>
+<body>
+    <form action="thanks.html" method="get">
+        <section>
+            <label for="flavors">Choose your dounat flavor:</label>
+            <input list="dounat-flavors" id="flavors" name="flavors" />
+
+            <datalist id="dounat-flavors">
+                <option value="Chocolate"></option>
+                <option value="Strawberry"></option>
+                <option value="Vanilla"></option>
+            </datalist>
+        </section>
+        <br>
+        <section>
+            <label for="toppings">What is your toppings:</label>
+            <br>
+            <input type="checkbox" id="toppings" name="toppings">
+            <label for="toppings">sprinkles</label>
+            <br>
+            <input type="checkbox" id="toppings" name="toppings">
+            <label for="toppings">chocolate chips</label>
+            <br>
+            <input type="checkbox" id="toppings" name="toppings">
+            <label for="toppings">nuts</label>
+        </section>
+        <br>
+        <section>
+            <label for="dounatNum">How many dounat do you want:</label>
+            <br>
+            <input type="number" id="dounatNum" name="dounatNum" min="1" max="10">
+        </section>
+        <br>
+        <section>
+            <label for="shape">choice your dounat shape</label>
+            <select name="shape" id="shape" >
+                <option value="">-Please select dounat shape-</option>
+                <option value="Star">Star</option>
+                <option value="Heart">Heart</option>
+                <option value="Round">Round</option>
+                <option value="long">long</option>
+            </select>
+        </section>
+        <br>
+        <section>
+            <label for="drink">What do you want to drink:</label>
+            <br>
+            <input type="radio" id="drink" name="drink" value="coffee">
+            <label for="drink">Coffee</label>
+            <br>
+            <input type="radio" id="drink" name="drink" value="milk">
+            <label for="drink">Milk</label>
+        </section>
+        <br>
+        <footer>
+            <a href="thanks.html"><button id="order">Order</button></a>
+        </footer>
+
+    </form>
+</body>
+</html>

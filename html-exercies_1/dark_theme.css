@@ -1,0 +1,55 @@
+body{
+    background-color: black;
+    color: white;
+    font-family: 'Lugrasimo', cursive;
+
+}
+a{
+    color: cyan;
+}
+header{
+    color: white;
+    text-align: center;
+}
+
+article{
+    color: white;
+    font-size: 20px;
+}
+section{
+    color: white;
+    font-size: 20px;
+    text-align: center;
+
+}
+
+table{
+    color: cyan;
+    font-size: 20px;
+    text-align: center;
+    width: 80%;
+    
+}
+
+button{
+    background-color: cyan;
+    color: black;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+#order{
+    background-color: cyan;
+    color: black;
+    border: none;
+    padding: 10px 40px;
+    border-radius: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 0px 955px;
+    align-items: center;
+}
