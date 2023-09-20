@@ -1,5 +1,5 @@
 body{
-    background-color: black;
+    background-color: #cdb4db;
     color: white;
     font-family: 'Lugrasimo', cursive;
 
@@ -10,8 +10,26 @@ a{
 header{
     color: white;
     text-align: center;
+    /* change all header to uppercase */
+    text-transform: uppercase;
+}
+a{
+    color:#bde0fe;
+
+}
+.top{
+    background-color: #ffafcc ;
 }
 
+em{
+    background-color: #ffafcc;
+}
+
+#the_most_important{
+    background-color: #a2d2ff;
+    text-transform: uppercase;
+    
+}
 article{
     color: white;
     font-size: 20px;
@@ -24,7 +42,7 @@ section{
 }
 
 table{
-    color: cyan;
+    color: black;
     font-size: 20px;
     text-align: center;
     width: 80%;
@@ -52,4 +70,62 @@ button{
     cursor: pointer;
     margin: 0px 955px;
     align-items: center;
+}
+
+h2{
+    font-family: sans-serif;
+}
+
+h1,h2,h3,h4,h5,h6{
+    text-transform: capitalize;
+}
+h2>p{
+    font-size: x-large;
+}
+tr{
+    background-color: #a2d2ff;
+}
+tr:hover{
+    background-color: #ffc8dd;
+}
+
+nav{
+    display: inline;
+}
+a+a{
+    text-decoration: none;
+}
+
+body:hover{
+    cursor: pointer;
+}
+
+tr:nth-child(even){
+    background-color: #ffc8dd;
+}
+
+tr:nth-child(even):hover{
+    background-color: #a2d2ff;
+}
+
+tr:nth-child(odd){
+    background-color: #a2d2ff;
+}
+
+tr:nth-child(odd):hover{
+    background-color: #ffc8dd;
+}
+
+p::selection{
+    background-color: #ffafcc;
+    color: black;
+}
+
+input{
+    height: 20px;
+    border-color: lightgray;
+}
+
+#massege{
+    height: 50px;
 }
