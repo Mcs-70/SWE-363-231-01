@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        
+        body{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: cornflowerblue;
+            
+        }
+        h1{
+            font-family: "Comic Sans MS", cursive, sans-serif;
+            font-size: 80px;
+            font-weight: bolder;
+            color: white;
+        }
+        .cell {
+            font-family: "Comic Sans MS", cursive, sans-serif;
+            font-size: 100px;
+            font-weight: bolder;
+            color: white;
+            background-color: rgb(172, 250, 175);
+            width: 250px;
+            height: 250px;
+            border: 1px solid black;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cell:hover{
+            background-color: lightgreen;
+        }
+
+        .row {
+            display: flex;
+        }
+        #inner{
+            width: 50px;
+            height: 50px;
+            background-color: red;;
+        }
+       
+       
+        button{
+            font-size: 30px;
+            background-color: whitesmoke;
+            border: 1px solid black;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0px 0px 260px;
+        }
+        button:hover{
+            background-color: lightcoral;
+            transform: matrix(1.1, 0, 0, 1.1, 0, 0);
+            transition: 1s ease-in-out;
+        }
+
+    </style>
+</head>
+
+<body>
+    <h1 id="turn">
+        Now it's is <span>X</span> turn
+    </h1>
+   
+    <!-- Board -->
+    <div class="board">
+        <div class="row">
+            <div cellIndex="0" class="cell" ></div>
+            <div cellIndex="1" class="cell"></div>
+            <div cellIndex="2" class="cell"></div>
+        </div>
+        <div class="row">
+            <div cellIndex="3" class="cell"></div>
+            <div cellIndex="4" class="cell"></div>
+            <div cellIndex="5" class="cell"></div>
+        </div>
+        <div class="row">
+            <div cellIndex="6" class="cell"></div>
+            <div cellIndex="7" class="cell"></div>
+            <div cellIndex="8" class="cell"></div>
+        </div>
+        <div>
+            <button >Restart Game</button>
+        </div>
+    </div>
+<script>
+
+// Variables
+let turn = "X";
+let gameModel = ["", "", "", "", "", "", "", "", ""];
+const winningCombinations = [
+    [0, 1, 2], // first row
+    [3, 4, 5], // second row
+    [6, 7, 8], // third row
+    [0, 3, 6], // first column
+    [1, 4, 7], // second column
+    [2, 5, 8], // third column
+    [0, 4, 8], // first diagonal
+    [2, 4, 6]  // second diagonal
+];
+
+// Function to check the winner
+function checkWinner() {
+    for (let i = 0; i < winningCombinations.length; i++) {
+        const [a, b, c] = winningCombinations[i];
+        if (gameModel[a] !== "" && gameModel[a] === gameModel[b] && gameModel[a] === gameModel[c]) {
+            return gameModel[a];
+        }
+    }
+    return null;
+}
+
+// DOM Elements
+const board = document.querySelector(".board");
+const restartButton = document.querySelector("button");
+const turnDisplay = document.querySelector("#turn span");
+
+// Event listeners
+board.addEventListener("click", cellClicked);
+restartButton.addEventListener("click", restartGame);
+
+
+
+// Function when a cell is clicked
+function cellClicked(event) {
+    const cell = event.target;
+    const index = cell.getAttribute("cellIndex");
+
+    if (gameModel[index] !== "") return;
+
+    const letterObject = document.createTextNode(turn);
+    cell.appendChild(letterObject);
+    cell.style.backgroundColor = turn === "X" ? "red" : "blue";
+
+    gameModel[index] = turn;
+    const winner = checkWinner();
+
+    if (winner) {
+        document.querySelector("#turn").innerHTML = `${winner} is the winner`;
+        board.removeEventListener("click", cellClicked);
+    } else {
+        turn = turn === "X" ? "O" : "X";
+        turnDisplay.innerHTML = turn;
+    }
+    if (!gameModel.includes("")) {
+    document.querySelector("#turn").innerHTML = "Draw";
+    board.removeEventListener("click", cellClicked);
+}
+}
+
+// Function to restart the game
+// Function to restart the game
+function restartGame() {
+    gameModel = ["", "", "", "", "", "", "", "", ""];
+    const cells = document.querySelectorAll(".cell");
+    cells.forEach(cell => {
+        cell.innerHTML = "";
+        cell.style.backgroundColor = "rgb(172, 250, 175)";
+    });
+
+    turn = "X";
+    turnDisplay.innerHTML = turn;
+
+    // Reset the message in the h1 element
+    document.querySelector("#turn").innerHTML = `Now it's ${turn} turn`;
+
+    board.addEventListener("click", cellClicked);
+}
+
+
+
+
+</script>
+</body>
+</html>
