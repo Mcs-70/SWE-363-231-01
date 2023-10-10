@@ -40,7 +40,10 @@
         .cell:hover{
             background-color: lightgreen;
         }
-
+        .cell.selected{
+            background-color: lightcoral;
+        }
+        
         .row {
             display: flex;
         }
@@ -49,15 +52,13 @@
             height: 50px;
             background-color: red;;
         }
-       
-       
         button{
             font-size: 30px;
             background-color: whitesmoke;
             border: 1px solid black;
             border-radius: 10px;
             padding: 25px;
-            margin: 30px 0px 0px 260px;
+            margin: 30px 0px 0px 0px;
         }
         button:hover{
             background-color: lightcoral;
@@ -72,115 +73,162 @@
     <h1 id="turn">
         Now it's is <span>X</span> turn
     </h1>
-   
-    <!-- Board -->
     <div class="board">
-        <div class="row">
-            <div cellIndex="0" class="cell" ></div>
-            <div cellIndex="1" class="cell"></div>
-            <div cellIndex="2" class="cell"></div>
-        </div>
-        <div class="row">
-            <div cellIndex="3" class="cell"></div>
-            <div cellIndex="4" class="cell"></div>
-            <div cellIndex="5" class="cell"></div>
-        </div>
-        <div class="row">
-            <div cellIndex="6" class="cell"></div>
-            <div cellIndex="7" class="cell"></div>
-            <div cellIndex="8" class="cell"></div>
-        </div>
-        <div>
-            <button >Restart Game</button>
-        </div>
+
     </div>
-<script>
+    <div>
+        <button >Restart Game</button>
+    </div>
+    <script>
 
-// Variables
-let turn = "X";
-let gameModel = ["", "", "", "", "", "", "", "", ""];
-const winningCombinations = [
-    [0, 1, 2], // first row
-    [3, 4, 5], // second row
-    [6, 7, 8], // third row
-    [0, 3, 6], // first column
-    [1, 4, 7], // second column
-    [2, 5, 8], // third column
-    [0, 4, 8], // first diagonal
-    [2, 4, 6]  // second diagonal
-];
+    // Create the board
 
-// Function to check the winner
-function checkWinner() {
-    for (let i = 0; i < winningCombinations.length; i++) {
-        const [a, b, c] = winningCombinations[i];
-        if (gameModel[a] !== "" && gameModel[a] === gameModel[b] && gameModel[a] === gameModel[c]) {
-            return gameModel[a];
+    function createBoard(rows, cols){
+        const board = document.querySelector('.board');
+        for (let i = 0; i < rows; i++){
+            const row = document.createElement('div');
+            row.classList.add('row');
+
+            for (let j = 0; j < cols; j++){
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                cell.setAttribute('cellIndex', i * cols + j);
+                row.appendChild(cell);
+            }
+            board.appendChild(row);
         }
+        return board;
     }
-    return null;
-}
 
-// DOM Elements
-const board = document.querySelector(".board");
-const restartButton = document.querySelector("button");
-const turnDisplay = document.querySelector("#turn span");
-
-// Event listeners
-board.addEventListener("click", cellClicked);
-restartButton.addEventListener("click", restartGame);
+    createBoard(3,3);
 
 
 
-// Function when a cell is clicked
-function cellClicked(event) {
-    const cell = event.target;
-    const index = cell.getAttribute("cellIndex");
 
-    if (gameModel[index] !== "") return;
-
-    const letterObject = document.createTextNode(turn);
-    cell.appendChild(letterObject);
-    cell.style.backgroundColor = turn === "X" ? "red" : "blue";
-
-    gameModel[index] = turn;
-    const winner = checkWinner();
-
-    if (winner) {
-        document.querySelector("#turn").innerHTML = `${winner} is the winner`;
-        board.removeEventListener("click", cellClicked);
-    } else {
-        turn = turn === "X" ? "O" : "X";
-        turnDisplay.innerHTML = turn;
+    // Variables
+    let turn = "X";
+    let gameModel = ["", "", "", "", "", "", "", "", ""];
+    const winningCombinations = [
+        [0, 1, 2], // first row
+        [3, 4, 5], // second row
+        [6, 7, 8], // third row
+        [0, 3, 6], // first column
+        [1, 4, 7], // second column
+        [2, 5, 8], // third column
+        [0, 4, 8], // first diagonal
+        [2, 4, 6]  // second diagonal
+    ];
+// Variables for current row and column index
+let currentRow = 0;
+let currentCol = 0;
+// const firstCell = document.querySelector('.cell');
+// firstCell.classList.add('selected');
+// Function to handle arrow key presses
+function handleArrowKeys(event) {
+    const key = event.key;
+    if (key === "ArrowUp" && currentRow > 0) {
+        currentRow--;
+    } else if (key === "ArrowDown" && currentRow < 2) {
+        currentRow++;
+    } else if (key === "ArrowLeft" && currentCol > 0) {
+        currentCol--;
+    } else if (key === "ArrowRight" && currentCol < 2) {
+        currentCol++;
     }
-    if (!gameModel.includes("")) {
-    document.querySelector("#turn").innerHTML = "Draw";
-    board.removeEventListener("click", cellClicked);
+
+    // Update the cell focus
+    const cells = document.querySelectorAll('.cell');
+    cells.forEach(cell => cell.classList.remove('selected'));
+    const targetIndex = currentRow * 3 + currentCol;
+    cells[targetIndex].classList.add('selected');
 }
+
+// Event listener for arrow key presses
+document.addEventListener("keydown", handleArrowKeys);
+
+// Function to handle space bar press
+function handleSpaceBar(event) {
+    if (event.key === " ") {
+        const targetIndex = currentRow * 3 + currentCol;
+        const selectedCell = document.querySelector(`[cellIndex="${targetIndex}"]`);
+        cellClicked({ target: selectedCell });
+    }
 }
 
-// Function to restart the game
-// Function to restart the game
-function restartGame() {
-    gameModel = ["", "", "", "", "", "", "", "", ""];
-    const cells = document.querySelectorAll(".cell");
-    cells.forEach(cell => {
-        cell.innerHTML = "";
-        cell.style.backgroundColor = "rgb(172, 250, 175)";
-    });
+// Event listener for space bar press
+document.addEventListener("keydown", handleSpaceBar);
+    // Function to check the winner
+    function checkWinner() {
+        for (let i = 0; i < winningCombinations.length; i++) {
+            const [a, b, c] = winningCombinations[i];
+            if (gameModel[a] !== "" && gameModel[a] === gameModel[b] && gameModel[a] === gameModel[c]) {
+                return gameModel[a];
+            }
+        }
+        return null;
+    }
 
-    turn = "X";
-    turnDisplay.innerHTML = turn;
+    // DOM Elements
+    const board = document.querySelector(".board");
+    const restartButton = document.querySelector("button");
+    const turnDisplay = document.querySelector("#turn span");
 
-    // Reset the message in the h1 element
-    document.querySelector("#turn").innerHTML = `Now it's ${turn} turn`;
-
+    // Event listeners
     board.addEventListener("click", cellClicked);
-}
+    restartButton.addEventListener("click", restartGame);
+    // move using arrow keys
+
+
+    // Function when a cell is clicked
+    function cellClicked(event) {
+        const cell = event.target;
+        const index = cell.getAttribute("cellIndex");
+
+        if (gameModel[index] !== "") return;
+
+        const letterObject = document.createTextNode(turn);
+        cell.appendChild(letterObject);
+        cell.style.backgroundColor = turn === "X" ? "red" : "blue";
+
+        gameModel[index] = turn;
+        const winner = checkWinner();
+
+        if (winner) {
+            document.querySelector("#turn").innerHTML = `${winner} is the winner`;
+            board.removeEventListener("click", cellClicked);
+        } else {
+            turn = turn === "X" ? "O" : "X";
+            turnDisplay.innerHTML = turn;
+        }
+        if (!gameModel.includes("")) {
+        document.querySelector("#turn").innerHTML = "Draw";
+        board.removeEventListener("click", cellClicked);
+    }
+    }
+
+    // Function to restart the game
+    // Function to restart the game
+    function restartGame() {
+    
+        gameModel = ["", "", "", "", "", "", "", "", ""];
+        const cells = document.querySelectorAll(".cell");
+
+        cells.forEach(cell => {
+            cell.innerHTML = "";
+            cell.style.backgroundColor = "rgb(172, 250, 175)";
+        });
+        turn = "X";
+        turnDisplay.innerHTML = turn;
+
+        // Reset the message in the h1 element
+        document.querySelector("#turn").innerHTML = `Now it's ${turn} turn`;
+        
+        board.addEventListener("click", cellClicked);
+    }
 
 
 
 
-</script>
+    </script>
 </body>
 </html>
