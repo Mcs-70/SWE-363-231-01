@@ -11,13 +11,24 @@
         text-align: center;
         font-size: x-large;
     }
+    h1{
+        font-size: 100px;
+    }
     button{
         background-color: rgb(255, 255, 255);
         border-radius: 10px;
         border: 2px solid black;
-        padding: 25px;
+        padding: 30px;
         margin: 500px;
-        font-size: x-large;
+        font-size: 40px;
+    }
+    .quiz{
+        background-color: rgb(255, 255, 255);
+        border-radius: 10px;
+        border: 2px solid black;
+        padding: 30px;
+        margin: 100px;
+        font-size: 40px;
     }
 </style>
 <body>
@@ -25,4 +36,28 @@
     <a href="mini-games.html"><button >mini-games</button></a>
     
 </body>
+<script>
+    async function quiz(){
+    let response = await fetch('https://quizapi.io/api/v1/questions?apiKey=HDPkXt7SZZRjJk3Gxp1MaC3XEBTV8ZrIi200jrI1&category=code&difficulty=Medium&limit=10');
+    let data = await response.json();
+    let question = data[0].question;
+    let answers = data[0].answers;
+    let allAnswers = [];
+    for(let i = 0; i < answers.length; i++){
+        allAnswers.push(answers[i].answer);
+    }
+
+    const quizQ = document.createElement('div');
+    quizQ.classList.add('quiz');
+    quizQ.innerHTML = `${question}`;
+    document.body.appendChild(quizQ);
+    const answerQ = document.createElement('div');
+    answerQ.classList.add('quiz');
+    answerQ.innerHTML = `${allAnswers}`;
+    document.body.appendChild(answerQ);
+    return console.log(answers);
+}
+quiz();
+
+</script>
 </html> 
